@@ -91,8 +91,31 @@ if dummy_col_name and dummy_col_name in final_input_df.columns:
     final_input_df[dummy_col_name] = 1
 else:
     # Tampilkan error jika tidak dapat menemukan kolom dummy, ini menandakan masalah serius pada model.pkl
-    st.error(f"Peringatan: Tidak dapat mencocokkan kolom dummy untuk R…
-[01.00, 3/12/2025] Bagus Yudhistira: ini app.py ku
-[01.00, 3/12/2025] Bagus Yudhistira: coba kembangin dik
-[01.00, 3/12/2025] Bagus Yudhistira: aku ga kuat meh turu sek
-[01.02, 3/12/2025] Bagus Yudhistira: kata gemini suruh nyoba ganti model lain, coba dik
+    st.error(f"Peringatan: Tidak dapat mencocokkan kolom dummy untuk Riwayat Mental '{mhh_value}'. Cek kembali model Anda. Kolom yang diharapkan adalah 'mental_health_history_0' dan 'mental_health_history_1'.")
+
+
+# Make prediction
+if st.sidebar.button('Prediksi Tingkat Stres'):
+    try:
+        # Perform prediction using the correctly structured final_input_df
+        prediction = model.predict(final_input_df)
+        
+        # Ensure prediction is a float and format the result
+        predicted_level = float(prediction[0])
+        
+        st.subheader('Hasil Prediksi Tingkat Stres:')
+        st.markdown(f"*Tingkat Stres diprediksi : Level {predicted_level:.2f}*")
+
+        if predicted_level < 2:
+            st.success("Tingkat Stres Rendah.")
+        elif predicted_level < 3.5:
+            st.warning("Tingkat Stres Sedang. Perlu perhatian.")
+        else:
+            st.error("Tingkat Stres Tinggi. Sangat disarankan untuk mencari bantuan.")
+
+    except Exception as e:
+        st.error("Terjadi kesalahan saat melakukan prediksi. Pastikan semua kolom input sesuai.")
+        st.exception(e)
+
+st.sidebar.markdown('---')
+st.sidebar.markdown('Skala Stres: 1 (Sangat Rendah) - 5 (Sangat Tinggi)')
