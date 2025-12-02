@@ -1,4 +1,4 @@
-[00.59, 3/12/2025] Bagus Yudhistira: import streamlit as st
+import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
